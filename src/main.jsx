@@ -7,13 +7,13 @@ import { Buggy ,ErrorFallback} from './Error.jsx'
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
-  <ErrorBoundary
-    FallbackComponent={ErrorFallback}
-      onReset={() => window.location.reload()}
-  >
-
-    <App />
-    <Buggy />
-  </ErrorBoundary>
+  // <ErrorBoundary
+    // FallbackComponent={ErrorFallback}
+      // onReset={() => window.location.reload()}
+  // >
+  <App />
+,
+  {/* <Buggy /> */},
+  {/* </ErrorBoundary> */}
   // </StrictMode>,
 )
