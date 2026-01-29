@@ -1,20 +1,13 @@
-import React, { useState } from "react";
+import React from 'react'
 
-const Prop3 = ({ func }) => {
-  const [input, setInput] = useState("");
-  console.log("prop3 called");
+const Prop3 = ({obj}) => {
+  console.log({obj})
+  const {name,age}=obj
   return (
     <div>
-      {/* <p>{data.name}</p> */}
-      <input
-        type="text"
-        placeholder="enter new name"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <button onClick={() => func(input)}>update parent name</button>
+      <h1>Name:{name} , Age:{age}</h1>
     </div>
-  );
-};
+  )
+}
 
-export default Prop3;
+export default Prop3

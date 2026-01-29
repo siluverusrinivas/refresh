@@ -2,86 +2,48 @@ import React, { useEffect, useState } from 'react'
 
 const Effect1 = () => {
     const[data,setData]=useState([])
-    const[error,setError]=useState()
     const[loading,setLoading]=useState(true)
-
-    const [currentPage,setCurrentPage]=useState(1)
-    const postsPerPage=10
+    const[error,setError]=useState(null)
+  const [input,setInput]=useState(0)
     useEffect(()=>{
-
         const fetchData=async()=>{
-         
-         try{
-            const res=await fetch('https://jsonplaceholder.typicode.com/posts')
-            console.log(res)
-            if(!res.ok)
-            {
-                throw new Error(`HTTP error ${res.status}`)
+            try{
+                const data=await fetch('https://jsonplaceholder.typicode.com/users')
+                if(!data.ok)
+                {
+                    throw new Error(`response status:${data.status}`)
+                }
+            
+                const res=await data.json()
+                console.log(res)
+                setData(res)
             }
-            const data=await res.json()
-            console.log({data})
-            setData(data)
-         }
-        
-         catch(err)
-         {
-            console.log('error handled',err.message)
-            setError(err)
-            setLoading(false)
-         }
-         finally{
-            setLoading(false)
-         }
+            catch(err)
+            {
+                setError(err.message)
+            }
+            finally{
+                setLoading(false)
+            }
         }
-    
-
-     fetchData()
-
+        fetchData()
     },[])
+    if(loading) return <h1>Loading....</h1>
+    if(error) return <h1>{error}</h1>
 
-    if (loading) return <h3>loading....</h3>;
-    if(error)  return  <h3>Error :{error}</h3>
+    const filterData=data.slice((0,Number(input)))
 
-
-    const indexOfLastPost=currentPage * postsPerPage // 10
-    const indexOfFirstPost=indexOfLastPost-postsPerPage //0
-
-    const currentPosts=data.slice(indexOfFirstPost,indexOfLastPost)
-
-    const totalPages=Math.ceil(data.length/postsPerPage)
-    console.log({totalPages})
   return (
-    <div id='ab'>
-
-  <table>
- <thead>
-    <tr>
-        <th>Id</th>
-        <th>title</th>
-        <th>body</th>
-    </tr>
- </thead>
-  <tbody>
-    {currentPosts.map((pos)=>(
-    <tr key={pos.id}>
-       <td>{pos.id}</td>
-       <td>{pos.title}</td>
-       <td>{pos.body}</td>
-    </tr>
-    ))}
-  </tbody>
-  </table>
-  <div>
-    {[...Array(totalPages)].map((_,i)=>(
-    <button
-    key={i}
-    onClick={()=>setCurrentPage(i+1)}
-    >
-        {i+1}
-    </button>
-    ))}
-  </div>
-  
+    <div>
+        <h1>fetch the data using fetch</h1>
+        <input type='number' placeholder='enter anu number' value={input} onChange={(e)=>setInput(e.target.value)}/>
+        <div>
+            {filterData.map((res)=>(
+                <div key={res.id}>
+                    {res.name}
+                </div>
+            ))}
+        </div>
     </div>
   )
 }
